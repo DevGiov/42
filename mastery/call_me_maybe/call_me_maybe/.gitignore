@@ -1,0 +1,25 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Type checking & testing caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Project output (mandatory 42 rule: data/output/ must never be pushed)
+data/output/
+*.json.bak
+
+# OS specific
+.DS_Store
+Thumbs.db
+
