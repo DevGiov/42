@@ -82,6 +82,7 @@ class TokenizerBackend(Protocol):
         """Return the text for a list of token ids."""
 
 
+@runtime_checkable
 class Tokenizer(Protocol):
     """Anything that converts between text and token ids."""
 

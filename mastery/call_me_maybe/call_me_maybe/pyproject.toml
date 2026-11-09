@@ -34,6 +34,11 @@ ignore_missing_imports = true
 disallow_untyped_defs = true
 check_untyped_defs = true
 
+# The provided SDK must stay untouched, so its typing issues are ignored.
+[[tool.mypy.overrides]]
+module = ["llm_sdk", "llm_sdk.*"]
+ignore_errors = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]

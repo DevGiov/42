@@ -25,3 +25,7 @@ class OutputFileError(CallMeMaybeError):
 
 class TokenizerError(CallMeMaybeError):
     """The vocabulary or the tokenizer backend is unusable."""
+
+
+class DecodingError(CallMeMaybeError):
+    """Constrained decoding could not produce a valid value."""
