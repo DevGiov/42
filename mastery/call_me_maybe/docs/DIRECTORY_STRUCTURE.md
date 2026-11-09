@@ -11,7 +11,7 @@ call_me_maybe/                               <-- Outer Repository Root (GitHub P
 ├── AGENTS.md                                <-- Operating instructions & constraints for AI agents
 ├── README.md                                <-- Overview of the project, theory, and architecture
 ├── docs/                                    <-- In-depth technical & evaluation documentation
-│   ├── ARCHITECTURE.md                      <-- Theory: Constrained, Speculative, Jump-Forward Decoding
+│   ├── ARCHITECTURE.md                      <-- Theory: Constrained & Jump-Forward Decoding
 │   ├── DIRECTORY_STRUCTURE.md               <-- (This file) Repository layout and navigation
 │   └── EVALUATION_GUIDE.md                  <-- Peer review preparation & live-coding defense tips
 ├── resources/                               <-- Reference documents & original project assets

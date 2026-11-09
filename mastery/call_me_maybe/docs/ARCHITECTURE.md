@@ -37,19 +37,20 @@ This crucial mathematical property means we **never need to compute the expensiv
 
 ---
 
-## 3. Theoretical Classification: Three Decoding Paradigms
+## 3. Theoretical Classification: Constrained vs. Jump-Forward Decoding
 
 A critical topic in the 42 peer evaluation is the precise distinction between:
-1. **Speculative Decoding**
-2. **Grammar-Constrained Decoding**
-3. **Jump-Forward (Compressed FSM) Decoding**
+1. **Grammar-Constrained Decoding**
+2. **Jump-Forward (Compressed FSM) Decoding**
 
-| Dimension | Speculative Decoding *(Leviathan et al., 2023)* | Constrained Decoding *(Willard & Louf, 2023)* | Jump-Forward Constrained *(Zheng et al., 2023 - SGLang)* |
-| :--- | :--- | :--- | :--- |
-| **Primary Goal** | Accelerate unrestricted text generation. | Guarantee 100% adherence to grammar/schema. | Unify 100% validity with extreme execution speed. |
-| **Model Requirements** | Two models: Fast Drafter $M_q$ + Large Target $M_p$. | Single model + Formal Grammar / FSM. | Single model + Compressed Finite State Machine. |
-| **Mechanism** | $M_q$ drafts $\gamma$ tokens; $M_p$ verifies in parallel via modified rejection sampling. | Masks invalid next-token logits ($z_v = -\infty$) based on parser state. | Injects static schema tokens deterministically; queries LLM **only** at semantic branch points. |
-| **Applicability to Call Me Maybe** | **Not applicable directly**: Single small model, and `llm_sdk` only returns 1D logits for the last token (no 2D parallel verification). | **Mandatory**: Required to select function name and extract typed argument values. | **Highly recommended**: Cuts forward passes by 70–85%, ensuring completion in seconds (< 5 min limit). |
+| Dimension | Constrained Decoding *(Willard & Louf, 2023)* | Jump-Forward Constrained *(Zheng et al., 2023 - SGLang)* |
+| :--- | :--- | :--- |
+| **Primary Goal** | Guarantee 100% adherence to grammar/schema. | Unify 100% validity with extreme execution speed. |
+| **Model Requirements** | Single model + Formal Grammar / FSM. | Single model + Compressed Finite State Machine. |
+| **Mechanism** | Masks invalid next-token logits ($z_v = -\infty$) based on parser state. | Injects static schema tokens deterministically; queries LLM **only** at semantic branch points. |
+| **Applicability to Call Me Maybe** | **Mandatory**: Required to select function name and extract typed argument values. | **Highly recommended**: Cuts forward passes by 70–85%, ensuring completion in seconds (< 5 min limit). |
+
+Jump-Forward is not an alternative to Constrained Decoding but an optimization of it: the same finite state machine that masks logits also detects states with a single valid continuation and fast-forwards through them.
 
 ---
 

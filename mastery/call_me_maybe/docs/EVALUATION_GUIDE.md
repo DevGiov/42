@@ -35,11 +35,10 @@ Before starting the defense:
 > **Answer**: Prompting an LLM (especially small models like Qwen3-0.6B) is probabilistic and unstructured. Even with detailed instructions, 0.6B models produce valid JSON only ~30% of the time due to hallucinations, missing quotes, or extra chat preamble.
 > Constrained Decoding guarantees 100% structural validity mathematically by intervening at the logit level: at each token generation step, any token that would violate JSON grammar or our function schema has its logit forced to $-\infty$. This reduces the probability of invalid tokens to zero after Softmax.
 
-### Q2: "What is the difference between Speculative Decoding and Constrained Decoding?"
+### Q2: "What is the difference between Constrained Decoding and Jump-Forward Decoding?"
 > **Answer**:
-> - **Speculative Decoding** (Leviathan et al., 2023) uses two models (a fast draft model and a large target model) to speed up free-form text generation via parallel verification and rejection sampling.
-> - **Constrained Decoding** (Willard & Louf, 2023) enforces formal grammar constraints on a single model via logit masking.
-> - **Jump-Forward Decoding** (Zheng et al., 2023 - SGLang) is the bridge: where schema characters are fixed (like `"parameters": {"a": `), an automa "speculates" them with 100% certainty, skipping expensive forward passes altogether.
+> - **Constrained Decoding** (Willard & Louf, 2023) enforces a formal grammar/schema on a single model via logit masking: invalid tokens get $-\infty$, so the model can only produce strings in the language $L$. It guarantees *validity*, but still needs one forward pass per generated token.
+> - **Jump-Forward Decoding** (Zheng et al., 2023 - SGLang) is an optimization built on top of it: where the schema leaves a single possible continuation (like `"parameters": {"a": `), the automaton injects those tokens directly into the context, skipping the forward passes altogether. The LLM is queried only at the semantic branch points.
 
 ### Q3: "Why don't you compute Softmax when selecting the best token?"
 > **Answer**: Softmax is strictly monotonically increasing ($a > b \implies e^{a} > e^{b}$). Therefore, the token with the highest probability among the unmasked candidates is identically the token with the highest raw logit. Taking `np.argmax(masked_logits)` gives the exact same result as Softmax argmax without the expensive exponential and division operations over 151,936 tokens.

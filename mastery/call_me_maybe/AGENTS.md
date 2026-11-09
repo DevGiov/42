@@ -94,7 +94,6 @@ To satisfy the sub-5-minute execution limit on CPU:
 
 During the peer evaluation at 42:
 1. The student must explain the difference between:
-   - **Speculative Decoding** (Drafter + Target models, parallel verification, rejection sampling).
    - **Grammar-Constrained Decoding** (Logit masking to $-\infty$, enforcing language $L$).
    - **Jump-Forward Decoding** (Compressed FSM skipping neural forward passes on deterministic strings).
 2. The student may be asked to perform a **live code modification** within 5-15 minutes (e.g., adding a new type handler, supporting a new CLI flag, or modifying output formatting). Code must be clean, modular, and easy to modify.
